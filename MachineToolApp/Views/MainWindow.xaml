@@ -1,0 +1,48 @@
+﻿<Window x:Class="MachineToolApp.Views.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MachineToolApp"
+        mc:Ignorable="d"
+        Title="Производство деталей" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ItemsControl ItemsSource="{Binding MachineTools}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="Black" BorderThickness="1" Margin="5" Padding="10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                <ProgressBar Value="{Binding MaterialLevel}" Maximum="100" Height="20" Margin="0,5"/>
+                                <TextBlock Text="Уровень материала:"/>
+                                <TextBlock Text="{Binding MaterialLevel, StringFormat={}{0}%}"/>
+                                <TextBlock Text="Деталей произведено:"/>
+                                <TextBlock Text="{Binding PartsProducedCount}"/>
+                                <TextBlock Text="Статус:"/>
+                                <TextBlock Text="{Binding Status}" MinHeight="20"/>
+                                <Button Content="Загрузить материал" 
+                                        Command="{Binding DataContext.LoadMaterialCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                        CommandParameter="{Binding}" Margin="0,5"/>
+                                <Button Content="Удалить станок" 
+                                        Command="{Binding DataContext.RemoveMachineToolCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                        CommandParameter="{Binding}" Margin="0,5,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <Button Content="Добавить станок" 
+                Command="{Binding AddMachineToolCommand}" 
+                HorizontalAlignment="Left" 
+                VerticalAlignment="Bottom" 
+                Margin="10"/>
+
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10">
+            <TextBlock Text="Общее количество деталей:"/>
+            <TextBlock Text="{Binding TotalPartsProduced}" FontWeight="Bold"/>
+        </StackPanel>
+    </Grid>
+</Window>
